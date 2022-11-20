@@ -1,0 +1,54 @@
+.q-form {
+  width: 35rem;
+}
+.q-field {
+  &__native {
+    padding: 0;
+  color: $white;
+  border-bottom: 0.1rem solid $grey;
+  }
+  &__marginal {
+    display: none;
+  }
+  &__control {
+    background: transparent;
+  }
+}
+
+p {
+  margin: 0 0 0;
+}
+
+form {
+  box-sizing: border-box;
+  max-width: 40rem;
+  padding: 0 4rem;
+  background: transparent;
+  display: block;
+  z-index: 500;
+  border: 0.1rem solid transparent;
+}
+
+.submit {
+  height: 3.5rem;
+}
+
+.form-title {
+  user-select: none;
+  margin: 0 0 2rem 0;
+  font-size: 4rem;
+  color: $white;
+  font-family: 'Dancing Script', cursive;
+}
+
+.error-msg {
+  height: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  &+& {
+    margin-top: 1rem;
+  }
+}
+
