@@ -24,7 +24,7 @@ module.exports = configure(function (/* ctx */) {
         browser: [ 'chrome87'],
         node: 'node16'
       },
-      publicPath: '/pyshop-3/client/dist/spa',
+      publicPath: 'pyshop3/client/dist/spa',
       vueRouterMode: 'hash', // available values: 'hash', 'history'
     },
 
