@@ -10,7 +10,7 @@ async function start() {
     origin: ['http://localhost:9000', 'http://192.168.1.102:9000/', CLIENT_URL],
     credentials: true,
   });
-  await app.listen(port || '3000', HOST, () => console.log(`port: ${port}`));
+  await app.listen( $PORT || '3000', HOST, () => console.log(`port: ${port}`));
 }
 
 start();
