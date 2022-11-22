@@ -277,7 +277,6 @@ export default {
 .list-container {
   padding: 0;
   margin: auto;
-  width: fit-content;
   max-width: 80%;
 }
 </style>
