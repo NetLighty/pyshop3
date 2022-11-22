@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
-import { AuthResponse } from 'src/models/AuthResponse';
+import { IAuthResponse } from 'src/models/IAuthResponse';
 import { API_URL_DEV, API_URL_PROD } from 'src/utils/consts';
 
 declare module '@vue/runtime-core' {
@@ -8,8 +8,8 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-const API_URL = API_URL_DEV;
-//const API_URL = API_URL_PROD;
+//const API_URL = API_URL_DEV;
+const API_URL = API_URL_PROD;
 const api = axios.create({ withCredentials: true, baseURL: API_URL });
 
 api.interceptors.request.use((config) => {
@@ -35,7 +35,7 @@ api.interceptors.response.use(
         error.config.headers.Authorization = `Bearer ${localStorage.getItem(
           'refresh_token'
         )}`;
-        const response = await axios.post<AuthResponse>(
+        const response = await axios.post<IAuthResponse>(
           `${API_URL}/auth/refresh`,
           {
             withCredentials: true,

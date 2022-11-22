@@ -1,8 +1,8 @@
-export interface ProfileItem {
+export interface IProfileItem {
   key: string,
   value: string,
 }
 export interface IFullProfileItem {
-  item: ProfileItem,
+  item: IProfileItem,
   isEditing: boolean,
 }

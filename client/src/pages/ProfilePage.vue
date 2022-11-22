@@ -50,7 +50,7 @@ import HeaderLayout from '../components/ProfileHeader.vue';
 import UserService from 'src/services/UserService';
 import { useStore } from 'src/stores/store';
 import { Ref, ref } from 'vue';
-import { IFullProfileItem, ProfileItem } from 'src/models/ProfileItem';
+import { IFullProfileItem, IProfileItem } from 'src/models/IProfileItem';
 import AuthService from 'src/services/AuthService';
 
 export default {
@@ -73,7 +73,7 @@ export default {
         if (existingItem) {
           isCreationError.value = true;
         } else {
-          const newItem: ProfileItem = { key: newItemKey.value, value: newItemValue.value };
+          const newItem: IProfileItem = { key: newItemKey.value, value: newItemValue.value };
           console.log(newItem);
           const response = await UserService.addProfileItem(newItem);
           profileItems.value = [...profileItems.value, { item: newItem, isEditing: false }];
@@ -130,7 +130,7 @@ export default {
       isEditing.value = false;
     }
 
-    const deleteProfileItem = async (profileItem: ProfileItem) => {
+    const deleteProfileItem = async (profileItem: IProfileItem) => {
       profileItems.value = profileItems.value.filter((item) => item.item.key !== profileItem.key)
       const response = await UserService.deleteProfileItem(profileItem);
       console.log(response.data);
@@ -155,7 +155,7 @@ export default {
   },
   async mounted() {
     await AuthService.initUser();
-    const profileInfo: ProfileItem[] = this.store.user.profileInfo.map((el) => JSON.parse(el));
+    const profileInfo: IProfileItem[] = this.store.user.profileInfo.map((el) => JSON.parse(el));
     this.profileItems = profileInfo.map((profileItem): IFullProfileItem => {
       return { item: profileItem, isEditing: false }
     });

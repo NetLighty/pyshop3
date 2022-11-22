@@ -1,19 +1,19 @@
 import { AxiosResponse } from 'axios';
 import { api } from '../boot/axios';
 import { IUser } from 'src/models/IUser';
-import { ProfileItem } from 'src/models/ProfileItem';
+import { IProfileItem } from 'src/models/IProfileItem';
 
 export default class UserService {
   static getUser(): Promise<AxiosResponse<IUser>> {
     return api.get<IUser>('/users/current');
   }
-  static addProfileItem(profileItem: ProfileItem): Promise<AxiosResponse<string>> {
+  static addProfileItem(profileItem: IProfileItem): Promise<AxiosResponse<string>> {
     return api.post<string>('/users/addProfileItem', profileItem);
   }
-  static deleteProfileItem(profileItem: ProfileItem): Promise<AxiosResponse<ProfileItem[]>> {
+  static deleteProfileItem(profileItem: IProfileItem): Promise<AxiosResponse<IProfileItem[]>> {
     return api.post('/users/deleteProfileItem', profileItem);
   }
-  static editProfileItem(profileItem: ProfileItem): Promise<AxiosResponse<ProfileItem[]>> {
+  static editProfileItem(profileItem: IProfileItem): Promise<AxiosResponse<IProfileItem[]>> {
     return api.post('/users/editProfileItem', profileItem);
   }
 }
