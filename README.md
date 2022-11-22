@@ -1,5 +1,3 @@
 # pyshop3
-## Код
-### Ветка develop
-## Deploy
-### link: https://netlighty.github.io/pyshop3/client/dist/spa/
+## Код в ветке develop
+## Deploy: https://netlighty.github.io/pyshop3/client/dist/spa/
