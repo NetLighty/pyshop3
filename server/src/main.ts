@@ -8,7 +8,7 @@ async function start() {
     origin: [
       'http://localhost:9000',
       'http://192.168.1.102:9000',
-      'https://',
+      'https://netlighty.github.io',
       /* CLIENT_URL, */
     ],
     credentials: true,
