@@ -1,5 +1,6 @@
 .background-body {
-  height: 100vh;
+  min-height: 100vh;
+  height: fit-content;
   background: #000;
   overflow: hidden;
   filter: drop-shadow(0 0 10px white);
@@ -11,11 +12,9 @@
   @return $random_range;
 }
 
-.fullscreen-btn {
-  color: $white;
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
+
+.page-content {
+  position: relative;
 }
 
 .snow {

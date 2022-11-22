@@ -4,6 +4,8 @@
     </div>
     <RouterView></RouterView>
   </div>
+  <div class="page-content">
+  </div>
 </template>
 
 <script>

@@ -4,7 +4,7 @@
       <HeaderLayout></HeaderLayout>
       <div class="q-pa-md list-container">
         <h1 class="page-title">Profile</h1>
-        <q-list class="row" bordered>
+        <q-list class="items-list" bordered>
           <div v-for="(profileItem, index) in profileItems" :key="index" class="item q-ml-xl">
             <q-item class="row items-center">
               <q-item-section class="item__name text-grey text-capitalize">{{ profileItem.item.key }}</q-item-section>
@@ -14,17 +14,17 @@
             <q-item class="row items-center">
               <div @input="inputChange" class="info-input tight-text" :class="profileItem.isEditing ? 'info-input_active' : ''"
                 :contenteditable="profileItem.isEditing ? 'true' : 'false'">
-                {{ profileItem.item.value }}
+                {{ profileItem.item.value}}
               </div>
               <q-btn
-                @click="!isEditing ? editItem(profileItem.item.key) : saveItem(profileItem.item.key, profileItem.item.value)"
+                @click="!isEditing ? setIsEditingItemTrue(profileItem.item.key, profileItem.item.value) : saveItem(profileItem.item.key, profileItem.item.value)"
                 :class="isEditing && !profileItem.isEditing ? 'hidden' : ''" class="option-icon" flat round
                 dense :icon="profileItem.isEditing ? 'check' : 'edit'" />
             </q-item>
           </div>
         </q-list>
       </div>
-      <q-form @submit="addItem">
+      <q-form class="q-mb-lg column items-center" @submit="addItem">
         <div class="q-mb-xs justify-center items-center column">
           <q-item
           @input="setIsCreationErrorFalse"
@@ -37,7 +37,7 @@
               :rules="[val => !!val || 'Value is required']" />
           </q-item>
         </div>
-        <p class="error-msg">{{ isCreationError ? 'Item with this key already exists' : '' }}</p>
+        <p v-if="isCreating" class="error-msg">{{ isCreationError ? 'Item with this key already exists' : '' }}</p>
         <PrimaryButton text="Add item"></PrimaryButton>
       </q-form>
     </q-layout>
@@ -74,14 +74,12 @@ export default {
           isCreationError.value = true;
         } else {
           const newItem: IProfileItem = { key: newItemKey.value, value: newItemValue.value };
-          console.log(newItem);
-          const response = await UserService.addProfileItem(newItem);
           profileItems.value = [...profileItems.value, { item: newItem, isEditing: false }];
-          console.log('response', response);
           isCreationError.value = false;
           isCreating.value = false;
           newItemKey.value = '';
           newItemValue.value= '';
+          const response = await UserService.addProfileItem(newItem);
         }
       } else {
         isCreating.value = true;
@@ -96,16 +94,21 @@ export default {
       isCreationError.value = false;
     }
 
-    const setIsEditingItemTrue = (itemKey: string) => {
-      console.log(itemKey);
+    const setIsEditingItemTrue = (itemKey: string, itemValue: string) => {
       isEditing.value = true;
-      profileItems.value = profileItems.value.map((profileItem) => {
+      console.log(itemValue);
+      if (itemValue==='' || itemValue==='---') {
+        editProfileItem(itemKey, '', true);
+      } else {
+        editProfileItem(itemKey, itemValue, true);
+      }
+      /* profileItems.value = profileItems.value.map((profileItem) => {
         if (profileItem.item.key === itemKey) {
           return { item: { key: profileItem.item.key, value: profileItem.item.value }, isEditing: true }
         } else {
           return profileItem
         }
-      })
+      }) */
     }
 
     const editProfileItem = async (itemKey: string, value: string, isEditing: boolean) => {
@@ -148,7 +151,7 @@ export default {
       addItem,
       inputChange,
       saveItem,
-      editItem: setIsEditingItemTrue,
+      setIsEditingItemTrue,
       setIsCreationErrorFalse,
       deleteProfileItem,
     }
@@ -184,8 +187,15 @@ export default {
   outline: none;
   background: transparent;
   width: 100%;
+  min-height: 3rem;
   color: $white;
   font-size: 2rem;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .info-input_active {
@@ -237,6 +247,8 @@ export default {
 }
 
 .item {
+  flex-basis: 30%;
+  max-width: 20rem;
   margin-bottom: 1.1rem;
   text-align: justify;
   &__name {
