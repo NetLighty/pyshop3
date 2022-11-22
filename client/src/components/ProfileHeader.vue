@@ -1,15 +1,11 @@
 <template>
-  <q-layout>
-    <q-header style="background-color: transparent">
-      <q-toolbar class="row justify-end ">
-          <span class="text-grey q-mr-sm">Logged as: </span>
-          <span class="q-mr-md">{{ store.user.username }}</span>
-        <q-btn @click="logout" color="grey" flat round dense icon="logout" />
-      </q-toolbar>
-    </q-header>
-    <RouterView></RouterView>
-  </q-layout>
-
+  <q-header style="background-color: transparent">
+    <q-toolbar class="row justify-end ">
+      <span class="text-grey q-mr-sm">Logged as: </span>
+      <span class="q-mr-md tight-text">{{ store.user.username }}</span>
+      <q-btn @click="logout" color="grey" flat round dense icon="logout" />
+    </q-toolbar>
+  </q-header>
 </template>
 
 <script>

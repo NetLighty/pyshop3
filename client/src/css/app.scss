@@ -12,29 +12,49 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 0.7rem;
+.error-msg {
+  color: $negative;
+  font-size: 1.5rem;
+  letter-spacing: 0.07rem;
+  font-weight: 300;
+  height: 2rem;
+  margin-bottom: 1rem;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
+.page-title {
+  user-select: none;
+  margin: 0 0 2rem 0;
+  font-size: 4rem;
+  color: $white;
+  letter-spacing: 0.08rem;
+  font-weight: 200;
+  // font-family: 'Dancing Script', cursive;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: $grey;
-  border-radius: 2rem;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $white;
+.tight-text {
+  // font-size: 1.45rem;
+  letter-spacing: 0.09rem;
+  font-weight: 300;
 }
 
 .q-page-container {
   max-width: 100%;
 }
 
+//scrollbar
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $grey;
+  border-radius: 2rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $white;
+}

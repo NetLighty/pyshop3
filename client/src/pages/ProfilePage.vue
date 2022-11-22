@@ -1,65 +1,52 @@
 <template>
-  <div v-if="!isLoading">
-    <div
-  class="q-pa-md list-container">
-    <h1 class="profile-title">Profile</h1>
-    <q-list bordered>
-      <div v-for="(profileItem, index) in profileItems" :key="index" class="item">
-        <q-item class="row items-center">
-          <q-item-section class="item__name text-grey text-capitalize">{{profileItem.item.key}}</q-item-section>
-          <q-btn
-          @click="deleteProfileItem(profileItem.item)"
-          class="option-icon"
-          color="grey"
-          flat round dense
-          icon="clear" />
-        </q-item>
-        <q-item class="row items-center">
-          <!-- <textarea
-          @input="inputChange"
-          class="info-input"
-          :class="profileItem.isEditing ? 'info-input_active' : ''"
-          type="text"
-          rows="1"
-          :value="profileItem.item.value" /> -->
-          <div
-          @input="inputChange"
-          class="info-input"
-          :class="profileItem.isEditing ? 'info-input_active' : ''"
-          :contenteditable="profileItem.isEditing ? 'true' : 'false'"
-          >
-            {{profileItem.item.value}}
+  <div v-if="!isPageLoading">
+    <q-layout>
+      <HeaderLayout></HeaderLayout>
+      <div class="q-pa-md list-container">
+        <h1 class="page-title">Profile</h1>
+        <q-list bordered>
+          <div v-for="(profileItem, index) in profileItems" :key="index" class="item">
+            <q-item class="row items-center">
+              <q-item-section class="item__name text-grey text-capitalize">{{ profileItem.item.key }}</q-item-section>
+              <q-btn @click="deleteProfileItem(profileItem.item)" class="option-icon" flat round dense
+                icon="clear" />
+            </q-item>
+            <q-item class="row items-center">
+              <div @input="inputChange" class="info-input tight-text" :class="profileItem.isEditing ? 'info-input_active' : ''"
+                :contenteditable="profileItem.isEditing ? 'true' : 'false'">
+                {{ profileItem.item.value }}
+              </div>
+              <q-btn
+                @click="!isEditing ? editItem(profileItem.item.key) : saveItem(profileItem.item.key, profileItem.item.value)"
+                :class="isEditing && !profileItem.isEditing ? 'hidden' : ''" class="option-icon" flat round
+                dense :icon="profileItem.isEditing ? 'check' : 'edit'" />
+            </q-item>
           </div>
-          <q-btn
-          @click=" !isEditing ? editItem(profileItem.item.key) : saveItem(profileItem.item.key, profileItem.item.value)"
-          :class="isEditing && !profileItem.isEditing ? 'hidden' : ''"
-          class="option-icon"
-          color="grey"
-          flat round dense
-          :icon="profileItem.isEditing ? 'check' : 'edit'" />
-        </q-item>
+        </q-list>
       </div>
-    </q-list>
-  </div>
-  <q-form @submit="addItem">
-      <div class="create-item-form">
-        <q-item v-if="isCreating">
-          <q-input filled v-model="newItemKey" label="key" label-color="grey" color="white" lazy-rules
-            :rules="[val => !!val || 'Key is required']" />
-        </q-item>
-        <q-item v-if="isCreating">
-          <q-input mask="" filled v-model="newItemValue" label="value" label-color="grey" color="white" lazy-rules
-            :rules="[val => !!val || 'Value is required']" />
-        </q-item>
-      </div>
-      <p class="text-negative error-msg">{{ isCreationError ? 'Item with this key already exists' : '' }}</p>
-      <PrimaryButton text="Add item"></PrimaryButton>
-    </q-form>
+      <q-form @submit="addItem">
+        <div class="q-mb-xs justify-center items-center column">
+          <q-item
+          @input="setIsCreationErrorFalse"
+          v-if="isCreating">
+            <q-input filled v-model="newItemKey" label="key" label-color="grey" color="white" lazy-rules
+              :rules="[val => !!val || 'Key is required']" />
+          </q-item>
+          <q-item v-if="isCreating">
+            <q-input mask="" filled v-model="newItemValue" label="value" label-color="grey" color="white" lazy-rules
+              :rules="[val => !!val || 'Value is required']" />
+          </q-item>
+        </div>
+        <p class="error-msg">{{ isCreationError ? 'Item with this key already exists' : '' }}</p>
+        <PrimaryButton text="Add item"></PrimaryButton>
+      </q-form>
+    </q-layout>
   </div>
 </template>
 
 <script lang="ts">
 import PrimaryButton from '../components/PrimaryButton.vue';
+import HeaderLayout from '../components/ProfileHeader.vue';
 import UserService from 'src/services/UserService';
 import { useStore } from 'src/stores/store';
 import { Ref, ref } from 'vue';
@@ -69,10 +56,10 @@ import AuthService from 'src/services/AuthService';
 export default {
   setup() {
     const store = useStore();
+    const isPageLoading = ref(true);
     const isCreating = ref(false);
     const isCreationError = ref(false);
     const isEditing = ref(false);
-    const isLoading = ref(true);
     const profileItems: Ref<IFullProfileItem[]> = ref([]);
     const newItemKey = ref('');
     const newItemValue = ref('');
@@ -93,15 +80,20 @@ export default {
           console.log('response', response);
           isCreationError.value = false;
           isCreating.value = false;
+          newItemKey.value = '';
+          newItemValue.value= '';
         }
       } else {
         isCreating.value = true;
       }
     }
 
-    const inputChange = (e: any) => { // i dont know how to define type here, anyway bad practice
-      console.log(e.target.innerText);
+    const inputChange = (e: any) => { // i don't know how to define type here, anyway bad practice
       currentEditInput.value = e.target.innerText;
+    }
+
+    const setIsCreationErrorFalse = () => {
+      isCreationError.value = false;
     }
 
     const setIsEditingItemTrue = (itemKey: string) => {
@@ -152,12 +144,12 @@ export default {
       isCreating,
       isEditing,
       isCreationError,
-      isLoading,
-      // itemRefs,
+      isPageLoading,
       addItem,
       inputChange,
       saveItem,
       editItem: setIsEditingItemTrue,
+      setIsCreationErrorFalse,
       deleteProfileItem,
     }
   },
@@ -165,34 +157,42 @@ export default {
     await AuthService.initUser();
     const profileInfo: ProfileItem[] = this.store.user.profileInfo.map((el) => JSON.parse(el));
     this.profileItems = profileInfo.map((profileItem): IFullProfileItem => {
-      return {item: profileItem, isEditing: false}
+      return { item: profileItem, isEditing: false }
     });
-    this.isLoading = false;
+    this.isPageLoading = false;
   },
   components: {
     PrimaryButton,
+    HeaderLayout,
   },
+  beforeRouteEnter(to, from, next) {
+    const store = useStore();
+    if ( store.isAuth ) {
+      next();
+    } else {
+      next('/');
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-.create-item-form {
-  margin-bottom: 1rem;
-}
 .info-input {
   overflow: hidden;
   text-overflow: ellipsis;
   border: 0;
   outline: none;
   background: transparent;
+  width: 100%;
   color: $white;
   font-size: 2rem;
 }
+
 .info-input_active {
   pointer-events: all;
   border-bottom: 0.1rem solid $grey;
-  // box-shadow: 0 0 1rem 1rem rgba($grey, 0.2) inset;
 }
+
 .profile-title {
   user-select: none;
   margin: 0 0 1rem 0;
@@ -201,16 +201,17 @@ export default {
   font-family: 'Dancing Script', cursive;
   letter-spacing: 0.2rem;
 }
+
 .edit-input {
-  // display: none;
   border-bottom: 0;
 }
+
 .active {
   display: block;
 }
+
 .q-field {
   &__native {
-    padding: 0;
     color: $white;
     border-bottom: 0.1rem solid $grey;
   }
@@ -219,16 +220,18 @@ export default {
     align-content: center;
   }
 }
+
 .q-form {
   margin: 0 auto;
-  padding: 0;
-  width: fit-content;
 }
+
 .option-icon {
   opacity: 0;
+  color: $grey;
   position: absolute;
   left: -3.4rem;
 }
+
 .option-icon:hover {
   color: $white;
 }
@@ -240,13 +243,13 @@ export default {
     height: 2rem;
     font-size: 1.9rem;
   }
-
   &__info {
     font-size: 2rem;
     text-overflow: ellipsis;
     word-break: break-all;
   }
 }
+
 .item:hover {
   .option-icon {
     transition: 0.3s ease;
@@ -257,13 +260,6 @@ export default {
 .q-item {
   padding: 0;
   min-height: auto;
-  &__section {
-    // width: fit-content;
-  }
-}
-
-.q-input {
-  width: 100%;
 }
 
 .list-container {

@@ -7,16 +7,10 @@ module.exports = {
     require('autoprefixer')({
       overrideBrowserslist: [
         'last 4 Chrome versions',
-        'last 4 Firefox versions',
-        'last 4 Edge versions',
-        'last 4 Safari versions',
-        'last 4 Android versions',
-        'last 4 ChromeAndroid versions',
-        'last 4 FirefoxAndroid versions',
-        'last 4 iOS versions'
       ]
-    })
-
+    }),
+    require('postcss-simple-vars')({ silent: true }),
+    require('postcss-advanced-variables'),
     // https://github.com/elchininet/postcss-rtlcss
     // If you want to support RTL css, then
     // 1. yarn/npm install postcss-rtlcss

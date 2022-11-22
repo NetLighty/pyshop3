@@ -11,6 +11,13 @@
   @return $random_range;
 }
 
+.fullscreen-btn {
+  color: $white;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
 .snow {
   $total: 200;
   position: absolute;
@@ -32,7 +39,7 @@
     $fall-delay: random(30) * -1s;
 
     &:nth-child(#{$i}) {
-      opacity: random(10000) * 0.0001;
+      opacity: random(4000) * 0.0001;
       transform: translate($random-x, -10px) scale($random-scale);
       animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="absolute-center start-page">
-    <h1 class="start-page-msg">Hello, to use this app you should be authorized</h1>
+    <h1 class="start-page-msg page-title">Hello, to use this app you should be authorized</h1>
     <div class="flex-row justify-center">
       <PrimaryButton @click="pushToLogin" class="q-mr-md " text="Login"></PrimaryButton>
       <PrimaryButton @click="pushToRegistration" text="Registration"></PrimaryButton>
@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import PrimaryButton from 'src/components/PrimaryButton.vue';
+import { useStore } from 'src/stores/store';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -29,6 +30,14 @@ export default {
   },
   components: {
     PrimaryButton,
+  },
+  beforeRouteEnter(to, from, next) {
+    const store = useStore();
+    if ( store.isAuth ) {
+      next('/profile');
+    } else {
+      next();
+    }
   }
 }
 </script>

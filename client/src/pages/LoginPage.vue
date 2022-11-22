@@ -1,7 +1,7 @@
 <template>
   <div class='absolute-center'>
     <q-form @submit="submitForm">
-      <h1 class="form-title">Login</h1>
+      <h1 class="page-title">Login</h1>
       <q-input
       @focus="hideErrorMsg"
       filled
@@ -25,11 +25,11 @@
         </primary-button>
         <q-spinner v-if="isLoading" color="white" size="4rem" :thickness="2" />
       </div>
-      <p class="q-mt-md text-grey ">
+      <p class="q-mt-md text-grey">
         Don't have an account?
         <a
         @click="pushToRegistration"
-        class="q-ml-sm text-white cursor-pointer">Registration</a>
+        class="q-ml-sm text-white cursor-pointer tight-text">Registration</a>
       </p>
     </q-form>
   </div>
@@ -70,7 +70,6 @@ export default {
           router.push('/profile');
         } catch {
           loginError.value = true;
-          // console.log('login failed')
           isLoading.value = false;
         }
     }
@@ -83,7 +82,6 @@ export default {
       store,
       isAuth,
       loginError,
-      isPwd: ref(true),
       email,
       isLoading,
       password,
@@ -95,6 +93,14 @@ export default {
   },
   components: {
     PrimaryButton,
+  },
+  beforeRouteEnter(to, from, next) {
+    const store = useStore();
+    if ( store.isAuth ) {
+      next('/profile');
+    } else {
+      next();
+    }
   }
 }
 </script>

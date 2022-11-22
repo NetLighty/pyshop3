@@ -1,7 +1,7 @@
 <template>
   <div class='absolute-center'>
     <q-form @submit="submitForm">
-      <h1 class="form-title">Registration</h1>
+      <h1 class="page-title">Registration</h1>
       <q-input filled v-model="email" label="Email" label-color="grey" color="white" lazy-rules
         :rules="[val => !!val || 'Email is missing', () => validateEmail(email) || 'Invalid email',]" />
       <q-input filled v-model="username" label="Username" label-color="grey" color="white" type="text" lazy-rules
@@ -16,7 +16,7 @@
       </div>
       <p class="q-mt-md text-grey ">
         Already have an account?
-        <a @click="pushToLogin" class="q-ml-sm text-white cursor-pointer">Login</a>
+        <a @click="pushToLogin" class="q-ml-sm text-white cursor-pointer tight-text">Login</a>
       </p>
     </q-form>
   </div>
@@ -59,7 +59,6 @@ export default {
         store.setIsAuth(true);
         store.setUser(response.data);
         router.push('/profile');
-        isLoading.value = false;
       } catch {
         isRegistrationError.value = true;
         isLoading.value = false;
@@ -78,6 +77,14 @@ export default {
   },
   components: {
     PrimaryButton,
+  },
+  beforeRouteEnter(to, from, next) {
+    const store = useStore();
+    if ( store.isAuth ) {
+      next('/profile');
+    } else {
+      next();
+    }
   }
 }
 </script>

@@ -3,5 +3,5 @@ export const lsKeys = {
   refresh_token: 'refresh_token',
 }
 
-export const API_URL_DEV = 'http://localhost:3333';
-export const API_URL_PROD = 'https://pyshop3-production.up.railway.app/';
+export const API_URL_DEV = 'http://localhost:3000';
+export const API_URL_PROD = 'https://pyshop3-production.up.railway.app';

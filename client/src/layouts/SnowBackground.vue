@@ -1,24 +1,22 @@
 <template>
   <div class="background-body">
-    <div
-    v-for="(snowflake, index) in snowflakes"
-    :key="index"
-    class="snow">
+    <div v-for="(snowflake, index) in snowflakes" :key="index" class="snow">
     </div>
+    <RouterView></RouterView>
   </div>
 </template>
 
 <script>
 export default {
   setup() {
-    const snowflakes = Array.from(Array(10).keys());
+    const snowflakes = Array.from(Array(200).keys());
     return {
-      snowflakes
+      snowflakes,
     }
-  }
+  },
 }
 </script>
 
-<style>
+<style lang="scss">
 @import '../css/snowBackground.scss';
 </style>

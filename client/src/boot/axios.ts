@@ -1,20 +1,16 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { AuthResponse } from 'src/models/AuthResponse';
-import { API_URL_PROD } from 'src/utils/consts';
+import { API_URL_DEV, API_URL_PROD } from 'src/utils/consts';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $axios: AxiosInstance;
   }
 }
-// Be careful when using SSR for cross-request state pollution
-// due to creating a Singleton instance here;
-// If any client changes this (global) instance, it might be a
-// good idea to move this instance creation inside of the
-// "export default () => {}" function below (which runs individually
-// for each client)
-const api = axios.create({ withCredentials: true, baseURL: API_URL_PROD });
+const API_URL = API_URL_DEV;
+//const API_URL = API_URL_PROD;
+const api = axios.create({ withCredentials: true, baseURL: API_URL });
 
 api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem(
@@ -40,7 +36,7 @@ api.interceptors.response.use(
           'refresh_token'
         )}`;
         const response = await axios.post<AuthResponse>(
-          `${API_URL_PROD}/auth/refresh`,
+          `${API_URL}/auth/refresh`,
           {
             withCredentials: true,
           },

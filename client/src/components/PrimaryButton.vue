@@ -19,6 +19,8 @@ export default {
   cursor: pointer;
   color: $white;
   font-size: 1.7rem;
+  font-weight: 300;
+  letter-spacing: 0.08rem;
 
   &:hover {
     transition: all 0.2s ease;
