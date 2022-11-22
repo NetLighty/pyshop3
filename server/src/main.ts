@@ -8,6 +8,7 @@ async function start() {
     origin: [
       'http://localhost:9000',
       'http://192.168.1.102:9000',
+      'https://',
       /* CLIENT_URL, */
     ],
     credentials: true,

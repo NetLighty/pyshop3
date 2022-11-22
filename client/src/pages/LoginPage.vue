@@ -62,7 +62,7 @@ export default {
     const submitForm = async () => {
       try {
           isLoading.value = true;
-          await new Promise(r => setTimeout(r, 600)); // just for respresentation
+          await new Promise(r => setTimeout(r, 400)); // just for respresentation
           await AuthService.login({ email: email.value, password: password.value });
           const response = await UserService.getUser();
           store.setIsAuth(true);

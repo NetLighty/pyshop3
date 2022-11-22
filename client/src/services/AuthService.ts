@@ -2,7 +2,7 @@ import { api } from '../boot/axios';
 import { AxiosResponse } from 'axios';
 import { IAuthResponse } from 'src/models/IAuthResponse';
 import { ILoginDto, IRegistrationDto } from 'src/models/IAuthDto';
-import { lsKeys } from 'src/utils/lsKeys';
+import { lsKeys } from 'src/utils/consts';
 import { useStore } from '../stores/store';
 import UserService from './UserService';
 
@@ -16,6 +16,7 @@ export default class AuthService {
   }
 
   static async initUser() {
+    console.log('initUSer');
     try {
       const store = useStore();
       const response = await UserService.getUser();

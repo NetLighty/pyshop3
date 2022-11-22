@@ -4,8 +4,8 @@
       <HeaderLayout></HeaderLayout>
       <div class="q-pa-md list-container">
         <h1 class="page-title">Profile</h1>
-        <q-list bordered>
-          <div v-for="(profileItem, index) in profileItems" :key="index" class="item">
+        <q-list class="row" bordered>
+          <div v-for="(profileItem, index) in profileItems" :key="index" class="item q-ml-xl">
             <q-item class="row items-center">
               <q-item-section class="item__name text-grey text-capitalize">{{ profileItem.item.key }}</q-item-section>
               <q-btn @click="deleteProfileItem(profileItem.item)" class="option-icon" flat round dense
@@ -154,7 +154,6 @@ export default {
     }
   },
   async mounted() {
-    await AuthService.initUser();
     const profileInfo: IProfileItem[] = this.store.user.profileInfo.map((el) => JSON.parse(el));
     this.profileItems = profileInfo.map((profileItem): IFullProfileItem => {
       return { item: profileItem, isEditing: false }
@@ -165,7 +164,8 @@ export default {
     PrimaryButton,
     HeaderLayout,
   },
-  beforeRouteEnter(to, from, next) {
+  async beforeRouteEnter(to, from, next) {
+    await AuthService.initUser();
     const store = useStore();
     if ( store.isAuth ) {
       next();

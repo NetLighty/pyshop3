@@ -33,6 +33,8 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const store = useStore();
+    console.log('before route profile')
+    console.log(store.isAuth);
     if ( store.isAuth ) {
       next('/profile');
     } else {
